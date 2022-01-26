@@ -138,13 +138,13 @@ s9: enARdFF_2
 	o_on21 <= int_state(2);
 	o_flag1 <= int_state(2);
 
-	o_clearRFy <= int_state(3);
+	o_clearRFx <= int_state(3);
 
-	o_shiftRFy <= int_state(4);
+	o_shiftRFx <= int_state(4);
 
-	o_clearRFx <= int_state(5);
+	o_clearRFy <= int_state(5);
 
-	o_shiftRFx <= int_state(6);
+	o_shiftRFy <= int_state(6);
 
 	o_loadRFz <= int_state(7);
 	o_loadREz <= int_state(7);

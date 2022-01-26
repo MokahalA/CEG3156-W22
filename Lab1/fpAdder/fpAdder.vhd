@@ -118,19 +118,19 @@ SIGNAL		int_on22, int_flag0				:	STD_LOGIC;
 SIGNAL		int_on21, int_flag1				:	STD_LOGIC;
 
 --S1 & S2
-SIGNAL 		int_cin, int_load6				:	STD_LOGIC;
+SIGNAL 		int_cin, int_loadExpDiff				:	STD_LOGIC;
 
 --S3
-SIGNAL int_clearRFy						:	STD_LOGIC;
-
---S4
-SIGNAL int_shiftRFy						:	STD_LOGIC;
-
---S5
 SIGNAL int_clearRFx						:	STD_LOGIC;
 
---S6					
+--S4
 SIGNAL int_shiftRFx						:	STD_LOGIC;
+
+--S5
+SIGNAL int_clearRFy						:	STD_LOGIC;
+
+--S6					
+SIGNAL int_shiftRFy						:	STD_LOGIC;
 
 --S4 & S6
 SIGNAL int_countD						:	STD_LOGIC;
@@ -189,7 +189,7 @@ controller: fpAdderControl
 			o_loadRFx => int_loadRFx,
 			o_loadRFy => int_loadRFy,
 			o_loadRFz => int_loadRFz,
-			o_loadExpDiff => int_load6,
+			o_loadExpDiff => int_loadExpDiff,
 			o_loadREz => int_loadREz,
 			o_cin => int_cin,
 			o_on22 => int_on22,
@@ -238,7 +238,7 @@ expAdder: eightBitAdder
 
 expCounter: sevenBitDownCounter
 	PORT MAP (	i_resetBar => GReset,
-			i_load => int_load6,
+			i_load => int_loadExpDiff,
 			i_countD => int_countD,
 			i_A => int_Ediff,
 			i_clock => GClock,
