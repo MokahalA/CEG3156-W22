@@ -108,48 +108,48 @@ COMPONENT fpAdderControl
 		o_state					: OUT	STD_LOGIC_VECTOR(0 to 9));
 END COMPONENT;
 
---state 0 signals
+--S0
 SIGNAL		int_loadREx, int_loadREy, int_loadRFx, int_loadRFy	: 	STD_LOGIC;
 
---state 1 signals
+--S1
 SIGNAL		int_on22, int_flag0				:	STD_LOGIC;
 
---state 2 signals
+--S2
 SIGNAL		int_on21, int_flag1				:	STD_LOGIC;
 
---state 1 and 2 signals
+--S1 & S2
 SIGNAL 		int_cin, int_load6				:	STD_LOGIC;
 
---state 3 signals
+--S3
 SIGNAL int_clearRFy						:	STD_LOGIC;
 
---state 4 signals
+--S4
 SIGNAL int_shiftRFy						:	STD_LOGIC;
 
---state 5 signals
+--S5
 SIGNAL int_clearRFx						:	STD_LOGIC;
 
---state 6 signals						
+--S6					
 SIGNAL int_shiftRFx						:	STD_LOGIC;
 
---state 4 and 6 signals
+--S4 & S6
 SIGNAL int_countD						:	STD_LOGIC;
 
---state 7 signals
+--S7
 SIGNAL int_loadRFz, int_loadREz					:	STD_LOGIC;
 
---state 8 signals
+--S8
 SIGNAL int_shiftRFz, int_countU, int_clearRFz					:	STD_LOGIC;
 
---state 9 signals
+--S9
 SIGNAL int_done							:	STD_LOGIC;
 
---status signals
+--Status/State
 SIGNAL int_sign, int_notLess9, int_zero, int_coutFz		:	STD_LOGIC;
 SIGNAL int_state						:	STD_LOGIC_VECTOR(0 to 9);				
 
 
---datapath signals
+--Datapath signals
 SIGNAL int_Ex, int_Ey			 :	STD_LOGIC_VECTOR(6 downto 0);
 
 SIGNAL int_ExComplementIn, int_EyComplementIn	:	STD_LOGIC_VECTOR(7 downto 0);
