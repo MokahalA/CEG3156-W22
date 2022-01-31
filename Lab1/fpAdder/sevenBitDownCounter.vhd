@@ -1,9 +1,3 @@
---------------------------------------------------------------------------------
--- Title         : 7-Bit Down Counter
--- Project       : VHDL Synthesis Overview
--------------------------------------------------------------------------------
--- File          : sevenBitDownCounter.vhd
-
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
@@ -101,6 +95,6 @@ bit0: enARdFF_2
 
 	--Output driver
 	o_q <= int_d WHEN (i_load = '1') ELSE int_q;
-	o_zero <= '1' WHEN (int_q = "0000000") ELSE '0';
+	o_zero <= '1' WHEN (int_q = "0000000" and i_load = '0') ELSE '0';
 
 END rtl;

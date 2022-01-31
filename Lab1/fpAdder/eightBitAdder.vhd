@@ -34,7 +34,7 @@ adder7: oneBitFullAdder
 			i_y => i_y(7),
 			i_cin => int_c(6),
 			o_cout => int_c(7),
-			o_s => o_sign);
+			o_s => open);
 
 adder6: oneBitFullAdder
 	PORT MAP ( 	i_x => i_x(6),
@@ -83,5 +83,8 @@ adder0: oneBitFullAdder
 			i_cin => i_cin,
 			o_cout => int_c(0),
 			o_s => o_s(0));
+
+o_sign <= '0' WHEN (i_x > i_y) ELSE '1';
+
 
 END struct;

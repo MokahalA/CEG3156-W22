@@ -172,6 +172,8 @@ int_notLess9 <= int_GT AND NOT(int_EQ) AND NOT(int_LT);
 int_ExComplementIn <= '0' & int_Ex;
 int_EyComplementIn <= '0' & int_Ey;
 
+int_sign <= '0' WHEN (ExponentA > ExponentB) ELSE '1';
+
 int_Fx <= '1' & MantissaA;
 int_Fy <= '1' & MantissaB;
 
@@ -233,7 +235,7 @@ expAdder: eightBitAdder
 	PORT MAP (	i_x => int_xComplement,
 			i_y => int_yComplement,
 			i_cin => int_cin,
-			o_sign => int_sign,
+			o_sign => open,
 			o_s => int_Ediff);
 
 expCounter: sevenBitDownCounter
