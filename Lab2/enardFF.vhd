@@ -1,3 +1,9 @@
+--------------------------------------------------------------------------------
+-- Title         : Enabled Asynchronous Reset D-Flip Flop
+-- Project       : VHDL Synthesis Overview
+-------------------------------------------------------------------------------
+-- File          : enardFF.vhd
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
