@@ -14,7 +14,7 @@ ENTITY oneBitFA IS
 		i_y		:IN std_logic;
 		i_cin	:IN	std_logic;
 		o_sum	:OUT std_logic;
-		o_cout	:OUT std_logic);
+		o_cout	:OUT std_logic)
 
 END ENTITY oneBitFA;
 -------------------------------------------------------------------------------

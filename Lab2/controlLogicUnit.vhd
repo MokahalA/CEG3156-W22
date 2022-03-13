@@ -21,7 +21,7 @@ ENTITY contolLogicUnit IS
         o_ALUOp         :OUT std_logic_vector(1 downto 0);
         o_MemWrite      :OUT std_logic;
         o_ALUSrc        :OUT std_logic;
-        o_RegWrite      :OUT std_logic;
+        o_RegWrite      :OUT std_logic
         );
 
 END ENTITY contolLogicUnit;

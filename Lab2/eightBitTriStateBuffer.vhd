@@ -13,7 +13,7 @@ ENTITY eightBitTriStateBuffer IS
 	PORT(
         i_en               :IN STD_LOGIC;
 		i_a                :IN STD_LOGIC_VECTOR(7 downto 0);
-		o_y			       :OUT STD_LOGIC_VECTOR(7 downto 0);
+		o_y			       :OUT STD_LOGIC_VECTOR(7 downto 0)
 	);
 
 END ENTITY eightBitTriStateBuffer;

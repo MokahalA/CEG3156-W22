@@ -1,206 +1,77 @@
 -------------------------------------------------------------------------------
--- Title		: Register File
+-- Title		: Register File (8 registers, Read/Write control)
 -- file			: registerFile.vhd
--- Project		: Single-cycle processor
+-- Project		: Single Cycle Processor
 -------------------------------------------------------------------------------
------
--- ToDo: ...  
------
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
---------------------------------
--- ENTITY
--------------------------------------------------------------------------------
+
 ENTITY registerFile IS
 	PORT(
-		i_GReset, i_clock : IN STD_LOGIC;
-		i_enable : IN STD_LOGIC; -- RegWrite signal --
-
-		i_readOne 		: IN STD_LOGIC_VECTOR(2 downto 0);
-		i_readTwo 		: IN STD_LOGIC_VECTOR(2 downto 0);
-		i_writeReg 		: IN STD_LOGIC_VECTOR(2 downto 0);
-		i_writeData 	: IN STD_LOGIC_VECTOR(7 downto 0);
-
-		o_readDataOne 	: OUT STD_LOGIC_VECTOR(7 downto 0);
-		o_readDataTwo 	: OUT STD_LOGIC_VECTOR(7 downto 0)
+		i_reset, i_clock : IN STD_LOGIC;
+		i_RegWrite : IN STD_LOGIC; -- RegWrite control signal --
+		readRegister1 : IN STD_LOGIC_VECTOR(4 downto 0);  --We only use bits 0-2 of the ports
+		readRegister2 : IN STD_LOGIC_VECTOR(4 downto 0);  
+		writeRegister : IN STD_LOGIC_VECTOR(4 downto 0);
+		writeData : IN STD_LOGIC_VECTOR(7 downto 0);
+		readData1 : OUT STD_LOGIC_VECTOR(7 downto 0);
+		readData2 : OUT STD_LOGIC_VECTOR(7 downto 0)
 	);
 
 END ENTITY registerFile;
--------------------------------------------------------------------------------
--- ARCHITECTURE
---------------------------------
+
 ARCHITECTURE rtl OF registerFile IS
 
-	signal int_readOne, int_readTwo, int_writeReg							:STD_LOGIC_VECTOR(7 downto 0);
-	signal int_writeData, int_dataOne, int_dataTwo							:STD_LOGIC_VECTOR(7 downto 0);
-	signal int_q0, int_q1, int_q2, int_q3, int_q4, int_q5, int_q6, int_q7	:STD_LOGIC_VECTOR(7 downto 0); -- registers outputs --
+	signal decodeOut, regOut0, regOut1, regOut2, regOut3, regOut4, regOut5, regOut6, regOut7 : STD_LOGIC_VECTOR(7 downto 0);
+	signal temp : STD_LOGIC_VECTOR(7 downto 0);
 
-	int_writeData = i_writeData;
-	
-	-- Components
-	COMPONENT threeToEightDecoder
-		PORT(
-			--i_GReset, i_clock   : IN STD_LOGIC; -- Are these needed?
-			i_enable            : IN STD_LOGIC;
-			i_code			    :IN STD_LOGIC_VECTOR(2 downto 0);
-			o_addr			    :OUT STD_LOGIC_VECTOR(7 downto 0);
-		);
-	END COMPONENT;
-
-	COMPONENT eightBitRegister
+	component eightBitRegister is 
 		PORT ( 
-			i_GReset, i_clock 	: IN STD_LOGIC;
-			i_enable 			: IN STD_LOGIC;
-			i_A 				: IN STD_LOGIC_VECTOR(7 downto 0);
-			o_q 				: OUT STD_LOGIC_VECTOR(7 downto 0)
-		);
-	END COMPONENT;
+			i_GReset, i_clock : IN STD_LOGIC;
+			i_enable : IN STD_LOGIC;
+			i_A : IN STD_LOGIC_VECTOR(7 downto 0);
+			o_q : OUT STD_LOGIC_VECTOR(7 downto 0));
+	end component;
 
-	COMPONENT eightBitTriStateBuffer
-		PORT(
-			i_en               :IN STD_LOGIC;
-			i_a                :IN STD_LOGIC_VECTOR(7 downto 0);
-			o_y			       :OUT STD_LOGIC_VECTOR(7 downto 0);
+	component threeToEightDecoder is
+		port(
+			A: in std_logic_vector(2 downto 0);
+			Y: out std_logic_vector(7 downto 0)
 		);
-	END COMPONENT;
-	
+	end component;
+
+	component threeToEightMux is 
+		port (
+			a1, a2, a3, a4, a5, a6, a7, a8: in std_logic_vector(7 downto 0);
+			s: in std_logic_vector(2 downto 0);
+			m: out std_logic_vector(7 downto 0)
+		);
+	end component;
+
 BEGIN
+	decode: threeToEightDecoder port map(writeRegister(2 downto 0), decodeOut);
 
--- DECODERS --
+	temp(0) <= i_RegWrite and decodeOut(7);
+	temp(1) <= i_RegWrite and decodeOut(6);
+	temp(2) <= i_RegWrite and decodeOut(5);
+	temp(3) <= i_RegWrite and decodeOut(4);
+	temp(4) <= i_RegWrite and decodeOut(3);
+	temp(5) <= i_RegWrite and decodeOut(2);
+	temp(6) <= i_RegWrite and decodeOut(1);
+	temp(7) <= i_RegWrite and decodeOut(0);
 
-	decoderReadOne: threeToEightDecoder
-		PORT MAP (
-			i_enable 	=>	NOT(i_enable);
-			i_code		=> 	i_readOne;
-			o_addr		=> 	int_readOne
-		);
-	
-	decoderReadTwo: threeToEightDecoder
-		PORT MAP (
-			i_enable 	=>	NOT(i_enable);
-			i_code		=> 	i_readTwo;
-			o_addr		=> 	int_readTwo
-		);
+	Reg0: eightBitRegister port map(i_reset, i_clock, temp(0), writeData, regOut0);
+	Reg1: eightBitRegister port map(i_reset, i_clock, temp(1), writeData, regOut1);
+	Reg2: eightBitRegister port map(i_reset, i_clock, temp(2), writeData, regOut2);
+	Reg3: eightBitRegister port map(i_reset, i_clock, temp(3), writeData, regOut3);
+	Reg4: eightBitRegister port map(i_reset, i_clock, temp(4), writeData, regOut4);
+	Reg5: eightBitRegister port map(i_reset, i_clock, temp(5), writeData, regOut5);
+	Reg6: eightBitRegister port map(i_reset, i_clock, temp(6), writeData, regOut6);
+	Reg7: eightBitRegister port map(i_reset, i_clock, temp(7), writeData, regOut7);
 
-	decoderWriteReg: threeToEightDecoder
-		PORT MAP (
-			i_enable 	=>	i_enable;
-			i_code		=> 	i_writeReg;
-			o_addr		=> 	int_writeReg
-		);
+	mux1: threeToEightMux port map(regOut0, regOut1, regOut2, regOut3, regOut4, regOut5, regOut6, regOut7, readRegister1(2 downto 0), readData1);
+	mux2: threeToEightMux port map(regOut0, regOut1, regOut2, regOut3, regOut4, regOut5, regOut6, regOut7, readRegister2(2 downto 0), readData2);
 
--- REGISTERS --
-
-	zero: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(0),
-			i_A => int_writeData,
-			o_q => int_q0
-		);
-		
-	one: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(1),
-			i_A => int_writeData,
-			o_q => int_q1
-		);
-		
-	two: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(2),
-			i_A => int_writeData,
-			o_q => int_q2
-		);
-	
-	three: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(3),
-			i_A => int_writeData,
-			o_q => int_q3
-		);
-	
-	four: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(4),
-			i_A => int_writeData,
-			o_q => int_q4
-		);
-		
-	five: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(5),
-			i_A => int_writeData,
-			o_q => int_q5
-		);
-		
-	six: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(6),
-			i_A => int_writeData,
-			o_q => int_q6
-		);
-	
-	seven: eightBitRegister
-		PORT MAP (
-			i_GReset => i_Greset,
-			i_clock => i_clk,
-			i_enable => int_writeReg(7),
-			i_A => int_writeData,
-			o_q => int_q8
-		);
-
--- TRI-STATE-BUFFERS --
-
-	readOne0:
-		PORT(
-			i_en 	=>	int_readOne(0)
-			i_a		=>	int_q0
-			o_y		=>	---???
-		);
-	readOne1:
-		PORT(
-			i_en 	=>	int_readOne(1)
-			i_a		=>	int_q1
-			o_y		=>	---???
-		);
-
-	-- ... Insert other readOne buffers ... --
-
-	readTwo0:
-		PORT(
-			i_en 	=>	int_readTwo(0)
-			i_a		=>	int_q0
-			o_y		=>	---???
-		);
-	readTwo1:
-		PORT(
-			i_en 	=>	int_readTwo(1)
-			i_a		=>	int_q1
-			o_y		=>	---???
-		);
-
-	-- ... Insert other readOne buffers ... --
-
-
-	-- Output Driver
-	
-	o_readDataOne		<= int_answerOne; -- STUCKED HERE --
-	o_readDataTwo		<= int_answerTwo;
 
 END ARCHITECTURE rtl;
--------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 -- Title         : 8-Bit Register
--- Project       : VHDL Synthesis Overview
+-- Project       : Single Cycle Processor
 -------------------------------------------------------------------------------
 -- File          : eightBitRegister.vhd
 
