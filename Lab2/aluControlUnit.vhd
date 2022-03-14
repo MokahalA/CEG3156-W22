@@ -9,14 +9,14 @@ USE ieee.std_logic_1164.ALL;
 --------------------------------
 -- ENTITY
 -------------------------------------------------------------------------------
-ENTITY aluContolUnit IS
+ENTITY aluControlUnit IS
 	PORT(
 		i_ALUop         :IN std_logic_vector(1 downto 0);
 		i_Function  	:IN std_logic_vector(4 downto 0);
 		o_Operation		:OUT std_logic_vector(2 downto 0)
         );
 
-END ENTITY aluContolUnit;
+END ENTITY aluControlUnit;
 -------------------------------------------------------------------------------
 -- ARCHITECTURE
 --------------------------------
