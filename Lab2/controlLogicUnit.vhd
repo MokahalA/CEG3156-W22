@@ -9,7 +9,7 @@ USE ieee.std_logic_1164.ALL;
 --------------------------------
 -- ENTITY
 -------------------------------------------------------------------------------
-ENTITY contolLogicUnit IS
+ENTITY controlLogicUnit IS
 	PORT(
 		i_Operation  	:IN std_logic_vector(5 downto 0);
 		o_RegDst		:OUT std_logic;
@@ -24,7 +24,7 @@ ENTITY contolLogicUnit IS
         o_RegWrite      :OUT std_logic
         );
 
-END ENTITY contolLogicUnit;
+END ENTITY controlLogicUnit;
 -------------------------------------------------------------------------------
 -- ARCHITECTURE
 --------------------------------
