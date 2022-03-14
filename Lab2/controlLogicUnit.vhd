@@ -28,7 +28,7 @@ END ENTITY controlLogicUnit;
 -------------------------------------------------------------------------------
 -- ARCHITECTURE
 --------------------------------
-ARCHITECTURE rtl OF contolLogicUnit IS
+ARCHITECTURE rtl OF controlLogicUnit IS
 
 SIGNAL int_R, int_lw, int_sw, int_beq, int_j, int_bne   :std_logic;
 SIGNAL int_ALUSrc, int_RegWrite                         :std_logic;

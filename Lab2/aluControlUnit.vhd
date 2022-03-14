@@ -20,7 +20,7 @@ END ENTITY aluControlUnit;
 -------------------------------------------------------------------------------
 -- ARCHITECTURE
 --------------------------------
-ARCHITECTURE rtl OF aluContolUnit IS
+ARCHITECTURE rtl OF aluControlUnit IS
 
 SIGNAL int_Operation        : std_logic_vector(2 downto 0);
 SIGNAL int_AND, int_OR 	    :std_logic;
