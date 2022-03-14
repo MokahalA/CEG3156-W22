@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Title         : 8-Bit Full Adder
+-- Title         : 8-Bit Full Adder/ Branch Adder
 -- Project       : VHDL Synthesis Overview
 -------------------------------------------------------------------------------
 -- File          : fullAdder8Bit.vhd
