@@ -11,15 +11,8 @@ PORT (A, B : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
 end mux2to1_8bit;
 
 ARCHITECTURE Behavior OF mux2to1_8bit IS
-
+	
 BEGIN
+	R <= A when s = '0' else B;
 
-	process(s)
-	BEGIN
-		if(s = '0') then
-			R <= A;
-		else
-			R <= B;
-		end if;
-	end process;
 end Behavior;

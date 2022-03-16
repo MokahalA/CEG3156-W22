@@ -38,6 +38,6 @@ l3: fullAdder1Bit port map (M(3), N(3), s2, Sum(3), s3);
 l4: fullAdder1Bit port map (M(4), N(4), s3, Sum(4), s4);
 l5: fullAdder1Bit port map (M(5), N(5), s4, Sum(5), s5);
 l6: fullAdder1Bit port map (M(6), N(6), s5, Sum(6), s6);
-l7: fullAdder1Bit port map (M(7), N(7), s5, Sum(7), Cout);
+l7: fullAdder1Bit port map (M(7), N(7), s6, Sum(7), Cout);
 
 end arch_fullAdder8Bit;

@@ -11,6 +11,7 @@ entity singleCycleProc is
   port (
     -- inputs --
     GClock : IN STD_LOGIC;
+    GClock2 : IN STD_LOGIC;
     GReset : IN STD_LOGIC;
     valueSelect : IN STD_LOGIC_VECTOR(2 downto 0);
 
@@ -164,14 +165,14 @@ begin
 
     -- Port Maps --
     PCreg: pcRegister port map(GClock, GReset, int_jumpMuxOut, int_pcRegOut);
-    instructionMem: instructionMemory port map(GClock, GClock, int_pcRegOut, int_instruction);
+    instructionMem: instructionMemory port map(GClock2, GClock, int_pcRegOut, int_instruction);
     regDstMux: mux5x5 port map(int_RegDst, int_instruction(15 downto 11), int_instruction(20 downto 16), int_regDstMuxOut);
     regFile: registerFile port map(GReset, GClock, int_RegWrite, int_instruction(25 downto 21), int_instruction(20 downto 16), int_regDstMuxOut, int_MemtoRegMuxOut, int_readData1, int_readData2);
     signExt: signExtend port map(int_instruction(15 downto 0), int_signExtended);
     aluMux: mux2to1_8bit port map(int_readData2, int_signExtended(7 downto 0), int_ALUsrc, int_aluMuxOut);
     zeroALU: lowerALU port map(int_aluControl, int_readData1, int_aluMuxOut, int_aluResult, int_Zero);
-    dataMem: dataMemory port map(GClock, GClock, int_MemWrite, int_MemRead, int_aluResult, int_readData2, int_dataMemOut);
-    memToRegMux: mux2to1_8bit port map(int_dataMemOut, int_aluResult, int_MemtoReg, int_MemtoRegMuxOut);
+    dataMem: dataMemory port map(GClock2, GClock, int_MemWrite, int_MemRead, int_aluResult, int_readData2, int_dataMemOut);
+    memToRegMux: mux2to1_8bit port map(int_aluResult, int_dataMemOut, int_MemtoReg, int_MemtoRegMuxOut);
     
     PCadd: pcAdder port map(GClock, int_pcRegOut, int_pcAdderOut);
     sl1: shiftLeft2 port map(int_instruction(25 downto 18), int_jumpAddress);
